@@ -1,6 +1,27 @@
+# Shipping Automation System
+
+Shipping automation for **dadsprinting.com** (standard shipping) and **proteamjerseys.com** (blind/dropship shipping), built on Make.com with Monday.com, QuickBooks, and NetParcel integrations.
+
+## Repository Structure
+
+```
+blueprints/
+  standard/    - Direct shipping workflows (5 Make.com blueprints)
+  blind/       - Blind/dropship shipping workflows (5 Make.com blueprints)
+  financial/   - QuickBooks payment verification (2 Make.com blueprints)
+docs/
+  api/         - NetParcel API docs and sample JSON
+  reference/   - Workflow PDFs and reference files
+  screenshots/ - Workflow diagram screenshots
+```
+
+For detailed structure, see [docs/STRUCTURE.md](docs/STRUCTURE.md). For architecture and data flows, see [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+---
+
 # New Shipping Board & Blindshipping Guide
 
-With 2025 around the corner, it felt like a good time to do an upgrade of the shipping board, in its functionality, seamlessness and its automation capabilities. The new shipping board is still going to be based on [Monday.com](http://Monday.com) , but with more functionality built in, and better automation to make shipping a more seamless process through utilizing the API’s for Netparcel and Quickbooks, connected via Make.com
+With 2025 around the corner, it felt like a good time to do an upgrade of the shipping board, in its functionality, seamlessness and its automation capabilities. The new shipping board is still going to be based on [Monday.com](http://Monday.com) , but with more functionality built in, and better automation to make shipping a more seamless process through utilizing the API's for Netparcel and Quickbooks, connected via Make.com
 
 **This new Shipping board automates the following processes without having to leave Monday.com**
 
@@ -15,7 +36,7 @@ All of the steps above were done manually prior, and often with error or inconsi
 
 ## **Overall Workflow of New Shipping Board:**
 
-![Screenshot 2024-12-26 at 2.02.31 PM.png](New%20Shipping%20Board%20&%20Blindshipping%20Guide/Screenshot_2024-12-26_at_2.02.31_PM.png)
+![Screenshot 2024-12-26 at 2.02.31 PM.png](docs/screenshots/Screenshot_2024-12-26_at_2.02.31_PM.png)
 
 ### **Key Adjustments and Input Requirements**:
 
@@ -53,7 +74,7 @@ All of the steps above were done manually prior, and often with error or inconsi
 
 ## First Phase: Automation for Gathering/Quotes Shipping & Inserting Specs:
 
-![Screenshot 2024-12-26 at 5.50.55 PM.png](New%20Shipping%20Board%20&%20Blindshipping%20Guide/Screenshot_2024-12-26_at_5.50.55_PM.png)
+![Screenshot 2024-12-26 at 5.50.55 PM.png](docs/screenshots/Screenshot_2024-12-26_at_5.50.55_PM.png)
 
 One of the issues that we could get away with in the past was  entering shipping details without proper formatting. This is passable for our size, but is inefficient and not something that will work at scale. Ideally, everything would be properly formatted to the fields of our systems, and since we are already entering the information, I wanted to make the labor of simply entering it into the proper place payoff as much as I thought possible. 
 
@@ -105,7 +126,7 @@ This document outlines the first phase of an automation system designed to strea
     - [Make.com](http://Make.com) Automation Link: [https://us1.make.com/3645/scenarios/3480908/edit](https://us1.make.com/3645/scenarios/3480908/edit)
 - **API Integration**: NetParcel API
     
-    [Netparcel API Documentation](New%20Shipping%20Board%20&%20Blindshipping%20Guide/Netparcel%20API%20Documentation%201696e9dd11ca80dcba97fe7cf319dd57.md)
+    [Netparcel API Documentation](docs/api/Netparcel%20API%20Documentation%201696e9dd11ca80dcba97fe7cf319dd57.md)
     
     - The API is essential for retrieving real-time shipping quotes.
     - API documentation is available but not publicly accessible. Copies are provided for team use.
@@ -202,7 +223,7 @@ This automation simplifies the shipping process by managing the creation of labe
 
 ---
 
-![Screenshot 2024-12-26 at 10.53.10 PM.png](New%20Shipping%20Board%20&%20Blindshipping%20Guide/Screenshot_2024-12-26_at_10.53.10_PM.png)
+![Screenshot 2024-12-26 at 10.53.10 PM.png](docs/screenshots/Screenshot_2024-12-26_at_10.53.10_PM.png)
 
 ### **VIDEO:**
 
@@ -428,4 +449,4 @@ By adhering to these steps, blind shipping processes maintain efficiency while e
 - **Minimal manual data entry**
 - **Efficient workflow integration**
 
-[Automations for Shipping & Blindshipping Board](New%20Shipping%20Board%20&%20Blindshipping%20Guide/Automations%20for%20Shipping%20&%20Blindshipping%20Board%2018f6e9dd11ca806ba906c6ea1f106e92.md)
+[Automations for Shipping & Blindshipping Board](docs/reference/automations-guide.md)
