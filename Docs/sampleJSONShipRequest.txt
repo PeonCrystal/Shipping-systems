@@ -1,0 +1,132 @@
+{
+	"ship": {
+		"origin": {
+			"country": "CA",
+			"postal_code": "V3N4R3",
+			"province": "BC",
+			"city": "Burnaby",
+			"name": "Riz",
+			"address1": "90 Maverick",
+			"address2": null,
+			"phone": "9059059059",
+			"fax": null,
+			"address_type": null,
+			"company_name": "RIZ TEST"
+		},
+		"destination": {
+			"country": "US",
+			"postal_code": "77059",
+			"province": "TX",
+			"city": "Houston",
+			"name": "riz mer",
+			"address1": "90 street",
+			"address2": "",
+			"phone": "6479988858",
+			"fax": null,
+			"address_type": "residential",
+			"company_name": "RIZ TEST TO"
+		},
+		"service": {
+			"service_code": 202,
+			"service_name": "UPS Ground"
+		},
+		"ship_date": "2017-02-01",
+		"pick_up": {
+			"location": "Front Door",
+			"instructions": "Please make sure this gets out",
+			"ready_time": {
+				"ready_hour": "09",
+				"ready_min": "00"
+			},
+			"close_time": {
+				"close_hour": "17",
+				"close_min": "00"
+			}
+		},
+		"special_services": {
+			"saturday_delivery": false,
+			"signature_required": false,
+			"adult_signature": false,
+			"hold_for_pickup": false,
+			"trade_show_pickup": false,
+			"trade_show_delivery": false,
+			"inside_pickup": false,
+			"inside_delivery": false,
+			"tailgate_pickup": false,
+			"tailgate_delivery": false,
+			"appointment_delivery": {
+				"delivery_date": "2017-04-13",
+				"delivery_window_start_time": {
+					"start_hour": "09",
+					"start_min": "00"
+				},
+				"delivery_window_end_time": {
+					"end_hour": "17",
+					"end_min": "00"
+				}				
+			},
+			"appointment_pickup": false
+		},
+		"customs_invoice": {
+			"bill_to": "Consignee",
+			"invoice_currency": "CAD",
+			"items": [
+				{
+					"description": "My TEST - My PRODUCT",
+					"harmonized_code": "12345",
+					"origin_country_code": "CA",
+					"quantity": 1,
+					"unit_price": 15.05,
+					"weight": 30,
+					"weightUnit": "lbs",
+					"sku": "SKU CODE1"
+				},
+				{
+					"description": "My TEST - My PRODUCT2",
+					"harmonized_code": "67890",
+					"origin_country_code": "CA",
+					"quantity": 2,
+					"unit_price": 5.50,
+					"weight": 12,
+					"weightUnit": "lbs",
+					"sku": "SKU CODE2"
+				}
+			]
+		},
+		"packaging_information": {
+			"packaging_type": "My Packaging",
+			"packages": [
+				{
+					"length": 1,
+					"width": 1,
+					"height": 1,
+					"weight": 5,
+					"weightUnit": "lbs",
+					"insurance_amount": 200.00,
+					"description": "TEST",
+					"freight_class": "77.5",
+					"nmfc_code": "12345",
+					"type": "pallet"
+				},
+				{
+					"length": 1,
+					"width": 1,
+					"height": 1,
+					"weight": 20,
+					"weightUnit": "lbs"
+				}
+			]
+		},
+		"references": [
+				{
+					"reference_name": "MY REF",
+					"reference_value": "1234"
+				},
+				{
+					"reference_name": "MY OTHER REF",
+					"reference_value": "5678"
+				}
+		]
+
+	}
+}
