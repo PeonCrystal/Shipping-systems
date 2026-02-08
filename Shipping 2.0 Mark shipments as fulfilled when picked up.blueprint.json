@@ -1,0 +1,1922 @@
+{
+    "name": "Shipping 2.0 Mark shipments as fulfilled when picked up",
+    "flow": [
+        {
+            "id": 8,
+            "module": "monday:ListBoardItems",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 44706
+            },
+            "mapper": {
+                "limit": "100",
+                "boardId": "8097949101",
+                "startPage": "",
+                "newestFirst": false,
+                "showParentID": false,
+                "showSubitemsID": false,
+                "filterToGetColumnValues": [
+                    "text82",
+                    "status_2",
+                    "text654",
+                    "numbers_mkkrp6cf"
+                ]
+            },
+            "metadata": {
+                "designer": {
+                    "x": 0,
+                    "y": 150
+                },
+                "restore": {
+                    "expect": {
+                        "boardId": {
+                            "mode": "chose",
+                            "label": "Shipment Board  ::  public"
+                        },
+                        "filterToGetColumnValues": {
+                            "mode": "chose",
+                            "items": [
+                                {
+                                    "value": {
+                                        "mode": "chose",
+                                        "label": "PO #"
+                                    }
+                                },
+                                {
+                                    "value": {
+                                        "mode": "chose",
+                                        "label": "Fulfilled"
+                                    }
+                                },
+                                {
+                                    "value": {
+                                        "mode": "chose",
+                                        "label": "Tracking #"
+                                    }
+                                },
+                                {
+                                    "value": {
+                                        "mode": "chose",
+                                        "label": "Shipment ID"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "monday"
+                            },
+                            "label": "Dad's Printing"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:monday",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "limit",
+                        "type": "uinteger",
+                        "label": "Limit",
+                        "required": true
+                    },
+                    {
+                        "name": "boardId",
+                        "type": "select",
+                        "label": "Board ID",
+                        "required": true
+                    },
+                    {
+                        "name": "showParentID",
+                        "type": "boolean",
+                        "label": "Show Parent ID",
+                        "required": true
+                    },
+                    {
+                        "name": "showSubitemsID",
+                        "type": "boolean",
+                        "label": "Show Subitems ID",
+                        "required": true
+                    },
+                    {
+                        "name": "startPage",
+                        "type": "uinteger",
+                        "label": "Start Page",
+                        "validate": {
+                            "min": 1
+                        }
+                    },
+                    {
+                        "name": "newestFirst",
+                        "type": "boolean",
+                        "label": "Newest First",
+                        "required": true
+                    },
+                    {
+                        "name": "filterToGetColumnValues",
+                        "spec": {
+                            "name": "value",
+                            "type": "select",
+                            "label": "Column ID",
+                            "dynamic": true,
+                            "options": [],
+                            "required": true
+                        },
+                        "type": "array",
+                        "label": "Output Column Values"
+                    }
+                ],
+                "interface": [
+                    {
+                        "name": "__IMTLENGTH__",
+                        "type": "uinteger",
+                        "label": "Total number of bundles"
+                    },
+                    {
+                        "name": "__IMTINDEX__",
+                        "type": "uinteger",
+                        "label": "Bundle order position"
+                    },
+                    {
+                        "name": "id",
+                        "type": "uinteger",
+                        "label": "ID"
+                    },
+                    {
+                        "name": "name",
+                        "type": "text",
+                        "label": "Name"
+                    },
+                    {
+                        "name": "email",
+                        "type": "email",
+                        "label": "Email"
+                    },
+                    {
+                        "name": "created_at",
+                        "type": "date",
+                        "label": "Created at"
+                    },
+                    {
+                        "name": "updated_at",
+                        "type": "date",
+                        "label": "Updated at"
+                    },
+                    {
+                        "name": "state",
+                        "type": "text",
+                        "label": "State"
+                    },
+                    {
+                        "name": "board",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "uinteger",
+                                "label": "ID"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Board"
+                    },
+                    {
+                        "name": "creator_id",
+                        "type": "uinteger",
+                        "label": "Creator ID"
+                    },
+                    {
+                        "name": "group",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "ID"
+                            },
+                            {
+                                "name": "title",
+                                "type": "text",
+                                "label": "Title"
+                            },
+                            {
+                                "name": "deleted",
+                                "type": "boolean",
+                                "label": "Deleted"
+                            },
+                            {
+                                "name": "archived",
+                                "type": "boolean",
+                                "label": "Archived"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Group"
+                    },
+                    {
+                        "name": "column_values",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "text",
+                                "label": "ID"
+                            },
+                            {
+                                "name": "title",
+                                "type": "text",
+                                "label": "Title"
+                            },
+                            {
+                                "name": "value",
+                                "type": "text",
+                                "label": "Value"
+                            },
+                            {
+                                "name": "additional_info",
+                                "type": "text",
+                                "label": "Additional Info"
+                            },
+                            {
+                                "name": "text",
+                                "type": "text",
+                                "label": "Text"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Column Values"
+                    },
+                    {
+                        "name": "parent_item",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "uinteger",
+                                "label": "ID"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Parent Item"
+                    },
+                    {
+                        "name": "subitems",
+                        "spec": [
+                            {
+                                "name": "id",
+                                "type": "uinteger",
+                                "label": "ID"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Subitems"
+                    },
+                    {
+                        "name": "mappable_column_values",
+                        "spec": [
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name"
+                            },
+                            {
+                                "name": "text82",
+                                "type": "text",
+                                "label": "PO #"
+                            },
+                            {
+                                "name": "status4",
+                                "spec": [
+                                    {
+                                        "name": "index",
+                                        "type": "text",
+                                        "label": "Index"
+                                    },
+                                    {
+                                        "name": "post_id",
+                                        "type": "text",
+                                        "label": "Post ID"
+                                    },
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Specs Confirmed"
+                            },
+                            {
+                                "name": "status_mkke5yfg",
+                                "spec": [
+                                    {
+                                        "name": "index",
+                                        "type": "text",
+                                        "label": "Index"
+                                    },
+                                    {
+                                        "name": "post_id",
+                                        "type": "text",
+                                        "label": "Post ID"
+                                    },
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Label Booked"
+                            },
+                            {
+                                "name": "status_1",
+                                "spec": [
+                                    {
+                                        "name": "index",
+                                        "type": "text",
+                                        "label": "Index"
+                                    },
+                                    {
+                                        "name": "post_id",
+                                        "type": "text",
+                                        "label": "Post ID"
+                                    },
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Bills Paid"
+                            },
+                            {
+                                "name": "status_2",
+                                "spec": [
+                                    {
+                                        "name": "index",
+                                        "type": "text",
+                                        "label": "Index"
+                                    },
+                                    {
+                                        "name": "post_id",
+                                        "type": "text",
+                                        "label": "Post ID"
+                                    },
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Fulfilled"
+                            },
+                            {
+                                "name": "__of_boxes_mkkey9eh",
+                                "type": "number",
+                                "label": "# Of Boxes"
+                            },
+                            {
+                                "name": "date",
+                                "spec": [
+                                    {
+                                        "name": "date",
+                                        "type": "date",
+                                        "label": "Date"
+                                    },
+                                    {
+                                        "name": "time",
+                                        "type": "date",
+                                        "label": "Time"
+                                    },
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Due Date"
+                            },
+                            {
+                                "name": "link_mkkkcj3q",
+                                "spec": [
+                                    {
+                                        "name": "url",
+                                        "type": "url",
+                                        "label": "URL"
+                                    },
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Sheet Link"
+                            },
+                            {
+                                "name": "ship_invoice___mkknwaeh",
+                                "type": "number",
+                                "label": "Ship Invoice #"
+                            },
+                            {
+                                "name": "button_mkn5ygh0",
+                                "type": "text",
+                                "label": "Invoice Reminder"
+                            },
+                            {
+                                "name": "numbers_mkkeqkfa",
+                                "type": "number",
+                                "label": "Shipping Cost"
+                            },
+                            {
+                                "name": "text654",
+                                "type": "text",
+                                "label": "Tracking #"
+                            },
+                            {
+                                "name": "dropdown0",
+                                "spec": [
+                                    {
+                                        "name": "ids",
+                                        "spec": {
+                                            "type": "number"
+                                        },
+                                        "type": "array",
+                                        "label": "IDs"
+                                    },
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Courier"
+                            },
+                            {
+                                "name": "text_mkkegqrh",
+                                "type": "text",
+                                "label": "Label Link"
+                            },
+                            {
+                                "name": "button5",
+                                "type": "text",
+                                "label": "Send Tracking"
+                            },
+                            {
+                                "name": "text74",
+                                "type": "text",
+                                "label": "Order Invoice #"
+                            },
+                            {
+                                "name": "tags",
+                                "spec": [
+                                    {
+                                        "name": "tag_ids",
+                                        "spec": {
+                                            "type": "number"
+                                        },
+                                        "type": "array",
+                                        "label": "Tag IDs"
+                                    },
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Tags"
+                            },
+                            {
+                                "name": "text65",
+                                "type": "text",
+                                "label": "Recipient"
+                            },
+                            {
+                                "name": "text4",
+                                "type": "text",
+                                "label": "Address 1"
+                            },
+                            {
+                                "name": "text2",
+                                "type": "text",
+                                "label": "Address 2"
+                            },
+                            {
+                                "name": "text60",
+                                "type": "text",
+                                "label": "City"
+                            },
+                            {
+                                "name": "text76",
+                                "type": "text",
+                                "label": "State"
+                            },
+                            {
+                                "name": "text71",
+                                "type": "text",
+                                "label": "Zip Code"
+                            },
+                            {
+                                "name": "text63",
+                                "type": "text",
+                                "label": "Country"
+                            },
+                            {
+                                "name": "text03",
+                                "type": "text",
+                                "label": "Phone Number"
+                            },
+                            {
+                                "name": "text88",
+                                "type": "text",
+                                "label": "Email"
+                            },
+                            {
+                                "name": "dropdown2",
+                                "spec": [
+                                    {
+                                        "name": "ids",
+                                        "spec": {
+                                            "type": "number"
+                                        },
+                                        "type": "array",
+                                        "label": "IDs"
+                                    },
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Production Partner"
+                            },
+                            {
+                                "name": "text6",
+                                "type": "text",
+                                "label": "Drive Folder"
+                            },
+                            {
+                                "name": "long_text",
+                                "spec": [
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Description"
+                            },
+                            {
+                                "name": "pipedrive_link",
+                                "type": "text",
+                                "label": "Pipedrive Link"
+                            },
+                            {
+                                "name": "text5",
+                                "type": "text",
+                                "label": "Blank Order ID"
+                            },
+                            {
+                                "name": "text1",
+                                "type": "text",
+                                "label": "Blank Order PDF"
+                            },
+                            {
+                                "name": "dropdown",
+                                "spec": [
+                                    {
+                                        "name": "ids",
+                                        "spec": {
+                                            "type": "number"
+                                        },
+                                        "type": "array",
+                                        "label": "IDs"
+                                    },
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Service Type"
+                            },
+                            {
+                                "name": "dropdown9",
+                                "spec": [
+                                    {
+                                        "name": "ids",
+                                        "spec": {
+                                            "type": "number"
+                                        },
+                                        "type": "array",
+                                        "label": "IDs"
+                                    },
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Sourcing Type"
+                            },
+                            {
+                                "name": "formula",
+                                "type": "text",
+                                "label": "Total QTY"
+                            },
+                            {
+                                "name": "text3",
+                                "type": "text",
+                                "label": "Line Item 1"
+                            },
+                            {
+                                "name": "text0",
+                                "type": "text",
+                                "label": "Variation"
+                            },
+                            {
+                                "name": "line_item_1_qty",
+                                "type": "number",
+                                "label": "Line Item 1 QTY"
+                            },
+                            {
+                                "name": "text90",
+                                "type": "text",
+                                "label": "Printart 1"
+                            },
+                            {
+                                "name": "text8",
+                                "type": "text",
+                                "label": "Mockup 1"
+                            },
+                            {
+                                "name": "text48",
+                                "type": "text",
+                                "label": "Line Item 2"
+                            },
+                            {
+                                "name": "text51",
+                                "type": "text",
+                                "label": "Variation 2"
+                            },
+                            {
+                                "name": "line_item_2_qty",
+                                "type": "number",
+                                "label": "Line Item 2 QTY"
+                            },
+                            {
+                                "name": "text61",
+                                "type": "text",
+                                "label": "Printart 2"
+                            },
+                            {
+                                "name": "text35",
+                                "type": "text",
+                                "label": "Mockup 2"
+                            },
+                            {
+                                "name": "subitems",
+                                "spec": [
+                                    {
+                                        "name": "linkedPulseIds",
+                                        "spec": [
+                                            {
+                                                "name": "linkedPulseId",
+                                                "type": "text",
+                                                "label": "Subitem ID"
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Subitem IDs"
+                                    },
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Subitems"
+                            },
+                            {
+                                "name": "text37",
+                                "type": "text",
+                                "label": "Line Item 3"
+                            },
+                            {
+                                "name": "text_1",
+                                "type": "text",
+                                "label": "Variation 3"
+                            },
+                            {
+                                "name": "line_item_3_qty",
+                                "type": "number",
+                                "label": "Line Item 3 QTY"
+                            },
+                            {
+                                "name": "text_3",
+                                "type": "text",
+                                "label": "Printart 3"
+                            },
+                            {
+                                "name": "text_4",
+                                "type": "text",
+                                "label": "Mockup 3"
+                            },
+                            {
+                                "name": "text_5",
+                                "type": "text",
+                                "label": "Line Item 4"
+                            },
+                            {
+                                "name": "text_6",
+                                "type": "text",
+                                "label": "Variation 4"
+                            },
+                            {
+                                "name": "line_item_4_qty",
+                                "type": "number",
+                                "label": "Line Item 4 QTY"
+                            },
+                            {
+                                "name": "text_8",
+                                "type": "text",
+                                "label": "Printart 4"
+                            },
+                            {
+                                "name": "text_9",
+                                "type": "text",
+                                "label": "Mockup 4"
+                            },
+                            {
+                                "name": "text_10",
+                                "type": "text",
+                                "label": "Line Item 5"
+                            },
+                            {
+                                "name": "text_11",
+                                "type": "text",
+                                "label": "Variation 5"
+                            },
+                            {
+                                "name": "line_item_5_qty",
+                                "type": "number",
+                                "label": "Line Item 5 QTY"
+                            },
+                            {
+                                "name": "text_13",
+                                "type": "text",
+                                "label": "Printart 5"
+                            },
+                            {
+                                "name": "text_14",
+                                "type": "text",
+                                "label": "Mockup 5"
+                            },
+                            {
+                                "name": "text46",
+                                "type": "text",
+                                "label": "Order Video"
+                            },
+                            {
+                                "name": "text42",
+                                "type": "text",
+                                "label": "Order Link"
+                            },
+                            {
+                                "name": "text23",
+                                "type": "text",
+                                "label": "PO FORM"
+                            },
+                            {
+                                "name": "people",
+                                "spec": [
+                                    {
+                                        "name": "personsAndTeams",
+                                        "spec": [
+                                            {
+                                                "name": "id",
+                                                "type": "uinteger",
+                                                "label": "ID"
+                                            },
+                                            {
+                                                "name": "kind",
+                                                "type": "text",
+                                                "label": "Kind"
+                                            }
+                                        ],
+                                        "type": "array",
+                                        "label": "Persons and Teams"
+                                    },
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Assignee"
+                            },
+                            {
+                                "name": "tags_1",
+                                "spec": [
+                                    {
+                                        "name": "tag_ids",
+                                        "spec": {
+                                            "type": "number"
+                                        },
+                                        "type": "array",
+                                        "label": "Tag IDs"
+                                    },
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Tags"
+                            },
+                            {
+                                "name": "button7",
+                                "type": "text",
+                                "label": "Create Pack Form"
+                            },
+                            {
+                                "name": "last_updated_Mjj78ez5",
+                                "spec": [
+                                    {
+                                        "name": "updater_id",
+                                        "type": "uinteger",
+                                        "label": "Updater ID"
+                                    },
+                                    {
+                                        "name": "updated_at",
+                                        "type": "date",
+                                        "label": "Updated at"
+                                    },
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Last updated"
+                            },
+                            {
+                                "name": "formula_Mjj7r2v6",
+                                "type": "text",
+                                "label": "Formula"
+                            },
+                            {
+                                "name": "numbers_mkkrp6cf",
+                                "type": "number",
+                                "label": "Shipment ID"
+                            },
+                            {
+                                "name": "button_mkkrrq76",
+                                "type": "text",
+                                "label": "Print Label"
+                            },
+                            {
+                                "name": "button_mkny7t7e",
+                                "type": "text",
+                                "label": "Click to call"
+                            },
+                            {
+                                "name": "dropdown_mknyees7",
+                                "spec": [
+                                    {
+                                        "name": "ids",
+                                        "spec": {
+                                            "type": "number"
+                                        },
+                                        "type": "array",
+                                        "label": "IDs"
+                                    },
+                                    {
+                                        "name": "changed_at",
+                                        "type": "date",
+                                        "label": "Changed at"
+                                    },
+                                    {
+                                        "name": "additonal_info",
+                                        "spec": [
+                                            {
+                                                "name": "label",
+                                                "type": "text",
+                                                "label": "Label"
+                                            },
+                                            {
+                                                "name": "color",
+                                                "type": "color",
+                                                "label": "Color"
+                                            },
+                                            {
+                                                "name": "changed_at",
+                                                "type": "date",
+                                                "label": "Changed at"
+                                            }
+                                        ],
+                                        "type": "collection",
+                                        "label": "Aditional info"
+                                    },
+                                    {
+                                        "name": "value",
+                                        "type": "any",
+                                        "label": "Value"
+                                    },
+                                    {
+                                        "name": "text",
+                                        "type": "text",
+                                        "label": "Text"
+                                    }
+                                ],
+                                "type": "collection",
+                                "label": "Device"
+                            }
+                        ],
+                        "type": "collection",
+                        "label": "Mappable column values"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "module": "http:ActionSendData",
+            "version": 3,
+            "parameters": {
+                "handleErrors": true,
+                "useNewZLibDeCompress": true
+            },
+            "filter": {
+                "name": "If Ready For Fulfillment",
+                "conditions": [
+                    [
+                        {
+                            "a": "{{8.mappable_column_values.status_2.text}}",
+                            "b": "Awaiting Courier",
+                            "o": "text:equal"
+                        }
+                    ]
+                ]
+            },
+            "mapper": {
+                "ca": "",
+                "qs": [],
+                "url": "https://api.netparcel.com/shipping_service",
+                "data": "{\"order\": {\"order_id\":{{8.mappable_column_values.numbers_mkkrp6cf}},\"tracking_number\": \"{{8.mappable_column_values.text654}}\"}}",
+                "gzip": true,
+                "method": "post",
+                "headers": [
+                    {
+                        "name": "API_USERNAME",
+                        "value": "Dadsprinting"
+                    },
+                    {
+                        "name": "API_PASSWORD",
+                        "value": "6nuahcfrh5dx"
+                    }
+                ],
+                "timeout": "",
+                "useMtls": false,
+                "authPass": "",
+                "authUser": "",
+                "bodyType": "raw",
+                "contentType": "application/json",
+                "serializeUrl": false,
+                "shareCookies": false,
+                "parseResponse": true,
+                "followRedirect": true,
+                "useQuerystring": false,
+                "followAllRedirects": false,
+                "rejectUnauthorized": true
+            },
+            "metadata": {
+                "designer": {
+                    "x": 300,
+                    "y": 150,
+                    "name": "API Call to Check Status"
+                },
+                "restore": {
+                    "expect": {
+                        "qs": {
+                            "mode": "chose"
+                        },
+                        "method": {
+                            "mode": "chose",
+                            "label": "POST"
+                        },
+                        "headers": {
+                            "mode": "chose",
+                            "items": [
+                                null,
+                                null
+                            ]
+                        },
+                        "bodyType": {
+                            "label": "Raw"
+                        },
+                        "contentType": {
+                            "label": "JSON (application/json)"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "handleErrors",
+                        "type": "boolean",
+                        "label": "Evaluate all states as errors (except for 2xx and 3xx )",
+                        "required": true
+                    },
+                    {
+                        "name": "useNewZLibDeCompress",
+                        "type": "hidden"
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "url",
+                        "type": "url",
+                        "label": "URL",
+                        "required": true
+                    },
+                    {
+                        "name": "serializeUrl",
+                        "type": "boolean",
+                        "label": "Serialize URL",
+                        "required": true
+                    },
+                    {
+                        "name": "method",
+                        "type": "select",
+                        "label": "Method",
+                        "required": true,
+                        "validate": {
+                            "enum": [
+                                "get",
+                                "head",
+                                "post",
+                                "put",
+                                "patch",
+                                "delete",
+                                "options"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "headers",
+                        "spec": [
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name",
+                                "required": true
+                            },
+                            {
+                                "name": "value",
+                                "type": "text",
+                                "label": "Value"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Headers"
+                    },
+                    {
+                        "name": "qs",
+                        "spec": [
+                            {
+                                "name": "name",
+                                "type": "text",
+                                "label": "Name",
+                                "required": true
+                            },
+                            {
+                                "name": "value",
+                                "type": "text",
+                                "label": "Value"
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Query String"
+                    },
+                    {
+                        "name": "bodyType",
+                        "type": "select",
+                        "label": "Body type",
+                        "validate": {
+                            "enum": [
+                                "raw",
+                                "x_www_form_urlencoded",
+                                "multipart_form_data"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "parseResponse",
+                        "type": "boolean",
+                        "label": "Parse response",
+                        "required": true
+                    },
+                    {
+                        "name": "authUser",
+                        "type": "text",
+                        "label": "User name"
+                    },
+                    {
+                        "name": "authPass",
+                        "type": "password",
+                        "label": "Password"
+                    },
+                    {
+                        "name": "timeout",
+                        "type": "uinteger",
+                        "label": "Timeout",
+                        "validate": {
+                            "max": 300,
+                            "min": 1
+                        }
+                    },
+                    {
+                        "name": "shareCookies",
+                        "type": "boolean",
+                        "label": "Share cookies with other HTTP modules",
+                        "required": true
+                    },
+                    {
+                        "name": "ca",
+                        "type": "cert",
+                        "label": "Self-signed certificate"
+                    },
+                    {
+                        "name": "rejectUnauthorized",
+                        "type": "boolean",
+                        "label": "Reject connections that are using unverified (self-signed) certificates",
+                        "required": true
+                    },
+                    {
+                        "name": "followRedirect",
+                        "type": "boolean",
+                        "label": "Follow redirect",
+                        "required": true
+                    },
+                    {
+                        "name": "useQuerystring",
+                        "type": "boolean",
+                        "label": "Disable serialization of multiple same query string keys as arrays",
+                        "required": true
+                    },
+                    {
+                        "name": "gzip",
+                        "type": "boolean",
+                        "label": "Request compressed content",
+                        "required": true
+                    },
+                    {
+                        "name": "useMtls",
+                        "type": "boolean",
+                        "label": "Use Mutual TLS",
+                        "required": true
+                    },
+                    {
+                        "name": "contentType",
+                        "type": "select",
+                        "label": "Content type",
+                        "validate": {
+                            "enum": [
+                                "text/plain",
+                                "application/json",
+                                "application/xml",
+                                "text/xml",
+                                "text/html",
+                                "custom"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "data",
+                        "type": "buffer",
+                        "label": "Request content"
+                    },
+                    {
+                        "name": "followAllRedirects",
+                        "type": "boolean",
+                        "label": "Follow all redirect",
+                        "required": true
+                    }
+                ],
+                "advanced": true
+            },
+            "onerror": [
+                {
+                    "id": 6,
+                    "module": "builtin:Ignore",
+                    "version": 1,
+                    "metadata": {
+                        "designer": {
+                            "x": 600,
+                            "y": 300
+                        }
+                    }
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "module": "monday:ChangeMultipleColumnValues",
+            "version": 1,
+            "parameters": {
+                "__IMTCONN__": 44706
+            },
+            "filter": {
+                "name": "If Picked Up",
+                "conditions": [
+                    [
+                        {
+                            "a": "{{4.data.order.status.status_name}}",
+                            "b": "In Transit",
+                            "o": "text:equal"
+                        }
+                    ],
+                    [
+                        {
+                            "a": "{{4.data.order.status.status_name}}",
+                            "b": "Delivered",
+                            "o": "text:equal"
+                        }
+                    ]
+                ]
+            },
+            "mapper": {
+                "itemId": "{{8.id}}",
+                "boardId": "8097949101",
+                "columnValuesToChange": [
+                    {
+                        "columnId": "status_2",
+                        "columnValue": {
+                            "label": "Done",
+                            "settings": "{\"done_colors\":[1],\"color_mapping\":{\"0\":19,\"2\":6,\"3\":8,\"6\":2,\"8\":3,\"19\":0},\"labels\":{\"0\":\"Awaiting Indicia\",\"1\":\"Done\",\"2\":\"Awaiting Courier\",\"5\":\"Awaiting Specs\"},\"labels_positions_v2\":{\"0\":3,\"1\":0,\"2\":1,\"5\":2},\"labels_colors\":{\"0\":{\"color\":\"#ff6d3b\",\"border\":\"#e05828\",\"var_name\":\"dark-orange\"},\"1\":{\"color\":\"#00c875\",\"border\":\"#00b461\",\"var_name\":\"green-shadow\"},\"2\":{\"color\":\"#037f4c\",\"border\":\"#006b38\",\"var_name\":\"grass-green\"},\"5\":{\"color\":\"#c4c4c4\",\"border\":\"#b0b0b0\",\"var_name\":\"grey\"}}}",
+                            "selectType": "label2index"
+                        }
+                    }
+                ],
+                "create_labels_if_missing": false
+            },
+            "metadata": {
+                "designer": {
+                    "x": 600,
+                    "y": 0
+                },
+                "restore": {
+                    "expect": {
+                        "itemId": {
+                            "mode": "edit"
+                        },
+                        "boardId": {
+                            "mode": "chose",
+                            "label": "Shipment Board  ::  public"
+                        },
+                        "columnValuesToChange": {
+                            "mode": "chose",
+                            "items": [
+                                {
+                                    "columnId": {
+                                        "mode": "chose",
+                                        "label": "Fulfilled"
+                                    },
+                                    "columnValue": {
+                                        "nested": {
+                                            "label": {
+                                                "mode": "chose",
+                                                "label": "Done"
+                                            },
+                                            "selectType": {
+                                                "mode": "chose",
+                                                "label": "Label"
+                                            }
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "parameters": {
+                        "__IMTCONN__": {
+                            "data": {
+                                "scoped": "true",
+                                "connection": "monday"
+                            },
+                            "label": "Dad's Printing"
+                        }
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "__IMTCONN__",
+                        "type": "account:monday",
+                        "label": "Connection",
+                        "required": true
+                    }
+                ],
+                "expect": [
+                    {
+                        "name": "boardId",
+                        "type": "select",
+                        "label": "Board ID",
+                        "required": true
+                    },
+                    {
+                        "name": "create_labels_if_missing",
+                        "type": "boolean",
+                        "label": "Create Labels if Missing",
+                        "required": true
+                    },
+                    {
+                        "name": "itemId",
+                        "type": "select",
+                        "label": "Item ID",
+                        "required": true
+                    },
+                    {
+                        "name": "columnValuesToChange",
+                        "spec": [
+                            {
+                                "name": "columnId",
+                                "type": "select",
+                                "label": "Column ID",
+                                "dynamic": true,
+                                "options": {
+                                    "store": []
+                                },
+                                "required": true,
+                                "validate": false
+                            }
+                        ],
+                        "type": "array",
+                        "label": "Column Values to Change",
+                        "required": true
+                    }
+                ]
+            }
+        }
+    ],
+    "metadata": {
+        "instant": false,
+        "version": 1,
+        "scenario": {
+            "roundtrips": 1,
+            "maxErrors": 3,
+            "autoCommit": true,
+            "autoCommitTriggerLast": true,
+            "sequential": false,
+            "slots": null,
+            "confidential": false,
+            "dataloss": false,
+            "dlq": false,
+            "freshVariables": false
+        },
+        "designer": {
+            "orphans": []
+        },
+        "zone": "us1.make.com",
+        "notes": [
+            {
+                "moduleIds": [
+                    8
+                ],
+                "content": "<p>https://www.loom.com/share/831b6e039c724f3e9a949d48c488f9fa</p>",
+                "isFilterNote": false,
+                "metadata": {
+                    "color": "#9138FE"
+                }
+            }
+        ]
+    }
+}

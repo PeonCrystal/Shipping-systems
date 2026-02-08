@@ -1,0 +1,159 @@
+# @Shipping - Book & Print Label
+
+Backups: https://drive.google.com/file/d/1LSBgadvQ8pXvcF50boR4PYthjAyupti4/view?usp=drive_link
+Category: Logistics, Order Management
+Failiure Impact: Manual Updating Required, Production Slowdown, Slower Processing
+Involved Softwares: Dropbox, GDrive, Gmail, Monday.com, PDF.co, Print Node, Sheets
+Link/Automation ID: https://us1.make.com/3645/scenarios/3481120/edit
+Manual Process Replaced?: Fully Automated
+Notes: Books Shipping label, and sends to hot folder inhouse to print.
+Outputs: Produces Production Assets, Sends Email, Updates Order Management
+Platform: Make.com
+Status: Live
+Trigger Source: Webhook
+
+# 📦 Shipping Automation – Part 2: Label Booking & Fulfillment
+
+## Overview
+
+This automation is **Part 2 of the Shipping workflow** and performs **the majority of the operational work**.
+
+Once triggered, it:
+
+- Books the shipment
+- Generates and prints the shipping label
+- Creates a shipping invoice (with markup)
+- Sends tracking information to the customer
+
+This is the **final execution step** in the shipping process.
+
+---
+
+## 🎯 What This Automation Does
+
+When successfully run, the automation will:
+
+- 📄 Generate the **shipment label**
+- 🖨️ Print the label at the shop
+- 💰 Generate a **shipping invoice** with a **20% markup**
+- 📬 Send the **tracking number to the customer**
+- ✅ Mark the shipment as completed
+
+---
+
+## 🔗 Prerequisite
+
+- The **uploaded quote sheet** from **Part 1 (NetParcel Quote Automation)** must exist
+- A carrier/service must be selected from that sheet
+
+---
+
+## 🚚 Selecting a Shipper
+
+1. Open the uploaded **quote spreadsheet**
+2. Choose a shipping service
+    - Example used: **ICS Next Day**
+3. Mark the selected service with an **“X”**
+4. Save the sheet
+
+This selection determines which carrier and service will be booked.
+
+---
+
+## 🔔 How to Trigger the Automation
+
+### Trigger Status
+
+- Set the shipment status to:
+    - **Book Label**
+
+Once this status is selected:
+
+- The automation immediately begins
+- No additional user input is required
+
+---
+
+## 🔄 Status Flow & Meanings
+
+| Status | Meaning |
+| --- | --- |
+| **Awaiting Review** | Default state after quotes are generated |
+| **Booking** | Automation is actively running |
+| **Done** | Label booked and process completed |
+| **Failed** | Automation failed (details provided) |
+
+### Failure Handling
+
+- If the automation fails:
+    - A failure reason is shown
+    - Details are added as **comments on the Monday.com item**
+    - Common cause: missing or unmapped data fields
+
+---
+
+## ⏱️ Real-Time Execution
+
+- The automation runs **in real time**
+- Typical completion time: **a few seconds**
+- Status updates from **Book Label → Booking → Done**
+
+---
+
+## 📄 Outputs Generated
+
+Once complete, the following are produced:
+
+- ✅ **Tracking number**
+    - Automatically sent to the customer via email
+- 📦 **PDF shipping label**
+    - Stored and accessible on the item
+- 🧾 **Shipping invoice**
+    - Generated with a **20% markup**
+- 🖨️ **Printed label**
+    - Automatically prints at the shop
+
+---
+
+## 🧠 Behind-the-Scenes Logic (High-Level)
+
+The automation performs the following steps:
+
+1. Identifies the item where **Book Label** was triggered
+2. Collects all shipment details
+3. Matches the selected service from the quote spreadsheet
+4. Applies internal logic and mappings
+5. Sends an API call to **NetParcel** to book the shipment
+6. Applies pickup logic:
+    - If booked **in the afternoon**, pickup is scheduled for the **next day**
+7. Generates:
+    - PDF label
+    - Tracking number
+    - Invoice
+8. Prints the label and emails tracking to the customer
+
+---
+
+## 🕒 Best Time to Run
+
+For optimal pickup handling:
+
+- **Early morning**, or
+- **End of day**
+
+This ensures correct pickup scheduling logic is applied.
+
+---
+
+## 📎 Label Verification
+
+- Generated labels are:
+    - Fully valid
+    - Accessible directly from the item
+- Labels can be reviewed or re-downloaded at any time
+
+[https://www.loom.com/share/1c9d975c29d34a8797dd93cd645baefa?sid=b5620cf9-46d3-4359-89aa-0ed179efa437](https://www.loom.com/share/1c9d975c29d34a8797dd93cd645baefa?sid=b5620cf9-46d3-4359-89aa-0ed179efa437)
+
+## For More Info Please Refer to page below:
+
+[New Shipping Board & Blindshipping Guide](https://www.notion.so/New-Shipping-Board-Blindshipping-Guide-1666e9dd11ca8011b702ff9505c35194?pvs=21)

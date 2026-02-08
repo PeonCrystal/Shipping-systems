@@ -1,0 +1,1288 @@
+{
+  "name": "Invoice Paid - Quickbooks System Check p2",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "invoice-paid-qb",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -640,
+        -352
+      ],
+      "id": "e24e8932-90a3-47db-8ee5-aa34d94014ea",
+      "name": "Webhook1",
+      "webhookId": "1d05fca6-29ff-49cd-b95a-376bb3dace75"
+    },
+    {
+      "parameters": {
+        "content": "## Invoice Paid - Quickbooks System Check\n**Double click** to edit me. [Guide](https://www.loom.com/share/3c278b2bf263452095e8627b73d51254)\n\nFed from: https://us1.make.com/3645/scenarios/4450456/edit",
+        "height": 320,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -624,
+        -880
+      ],
+      "id": "3049310d-44f8-4007-927a-9ae3812c057a",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "operation": "search",
+        "term": "={{ $('Webhook1').item.json.body.doc_number }}",
+        "exactMatch": true,
+        "limit": 20,
+        "additionalFields": {
+          "fields": [
+            "custom_fields"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1104,
+        208
+      ],
+      "id": "b538f00d-dc33-4501-bdd7-543ae0abde86",
+      "name": "Search a deal1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "pipedriveApi": {
+          "id": "8vlUznQLKplDUKs9",
+          "name": "Pipedrive account for Info@"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dealId": "={{ $json.id }}",
+        "updateFields": {
+          "stage_id": 16
+        }
+      },
+      "type": "n8n-nodes-base.pipedrive",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        208
+      ],
+      "id": "f4e7dcad-75df-45ee-8bc9-ed84dc29c762",
+      "name": "Move to Paid",
+      "credentials": {
+        "pipedriveApi": {
+          "id": "8vlUznQLKplDUKs9",
+          "name": "Pipedrive account for Info@"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1b316a4f-c2bb-4542-9c1c-13664d2a0f6f",
+              "leftValue": "={{ $json.column_values[8].text }}",
+              "rightValue": "={{ $('Webhook1').item.json.body.doc_number }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        384,
+        -432
+      ],
+      "id": "03f05ac2-be4c-4a76-be08-6f2ca0b43d7c",
+      "name": "If Match Found",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "8097949101",
+        "columnId": "ship_invoice___mkknwaeh",
+        "columnValue": "={{ $json.body.doc_number }}"
+      },
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        -384,
+        -352
+      ],
+      "id": "89a3349e-8c90-4abd-9652-2dd4be365e08",
+      "name": "Check Shipping Board for Ship Invoice Match",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mondayComApi": {
+          "id": "UBnY0wecZSO9xAxE",
+          "name": "Monday.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1b316a4f-c2bb-4542-9c1c-13664d2a0f6f",
+              "leftValue": "={{ $json.column_values[15].text }}",
+              "rightValue": "={{ $('Webhook1').item.json.body.doc_number }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        848,
+        -336
+      ],
+      "id": "064df0b5-2ed3-4cb1-80f4-989d2887cf85",
+      "name": "If Match Found1",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "8133495678",
+        "columnId": "ship_invoice___mkknwaeh",
+        "columnValue": "={{ $('Webhook1').item.json.body.doc_number }}"
+      },
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        384,
+        64
+      ],
+      "id": "01a80d16-28c8-4fb8-a7c8-ee69b3088b32",
+      "name": "Check BlindShipping Board for Ship Invoice Match",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mondayComApi": {
+          "id": "UBnY0wecZSO9xAxE",
+          "name": "Monday.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1b316a4f-c2bb-4542-9c1c-13664d2a0f6f",
+              "leftValue": "={{ $json.column_values[9].text }}",
+              "rightValue": "={{ $('Webhook1').item.json.body.doc_number }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        384,
+        304
+      ],
+      "id": "ca6671fd-7964-4870-9c16-7d56eec307f2",
+      "name": "If Match Found2",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "8133495678",
+        "columnId": "text74",
+        "columnValue": "={{ $('Webhook1').item.json.body.doc_number }}"
+      },
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        624,
+        240
+      ],
+      "id": "73f49e84-40ac-4fd4-b0fd-7e30a8c94c27",
+      "name": "Check BlindShipping Board for Order Invoice Match1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mondayComApi": {
+          "id": "UBnY0wecZSO9xAxE",
+          "name": "Monday.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "1b316a4f-c2bb-4542-9c1c-13664d2a0f6f",
+              "leftValue": "={{ $json.column_values[16].text }}",
+              "rightValue": "={{ $('Webhook1').item.json.body.doc_number }}",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        800,
+        240
+      ],
+      "id": "d2951608-39e7-4253-8736-6951a2063db2",
+      "name": "If Match Found3",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a828b46c-d5d7-49c3-a2b4-b029a9c9416e",
+              "leftValue": "={{ $json.Balance }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1280,
+        -592
+      ],
+      "id": "7973ecc3-743f-45a9-84a0-4ab6a295f8ed",
+      "name": "If Order Fully Paid"
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeColumnValue",
+        "boardId": "8097949101",
+        "itemId": "={{ $('Check Shipping Board for Ship Invoice Match').item.json.id }}",
+        "columnId": "status_1",
+        "value": "=\n{ \"label\": \"Done\" }\n"
+      },
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1568,
+        -720
+      ],
+      "id": "51700266-97f7-4279-84dd-b7412d2864fb",
+      "name": "Change Status to Bills Paid",
+      "credentials": {
+        "mondayComApi": {
+          "id": "UBnY0wecZSO9xAxE",
+          "name": "Monday.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeColumnValue",
+        "boardId": "8097949101",
+        "itemId": "={{ $('Check Shipping Board for Ship Invoice Match').item.json.id }}",
+        "columnId": "status_1",
+        "value": "=\n{ \"label\": \"Balance & Shipping Owing\" }\n"
+      },
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1568,
+        -528
+      ],
+      "id": "6234d6c4-e45b-4df9-996d-d52745cf53a1",
+      "name": "Change to Balance Owing",
+      "credentials": {
+        "mondayComApi": {
+          "id": "UBnY0wecZSO9xAxE",
+          "name": "Monday.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "getByColumnValue",
+        "boardId": "8097949101",
+        "columnId": "text74",
+        "columnValue": "={{ $('Webhook1').item.json.body.doc_number }}"
+      },
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        656,
+        -336
+      ],
+      "id": "c1773532-df17-44b4-b188-e3ef87d978ca",
+      "name": "Check Shipping Board for Order Invoice Match",
+      "alwaysOutputData": true,
+      "credentials": {
+        "mondayComApi": {
+          "id": "UBnY0wecZSO9xAxE",
+          "name": "Monday.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "filters": {
+          "query": "=WHERE DocNumber = '{{ $('Check Shipping Board for Ship Invoice Match').item.json.column_values[8].text }}'"
+        }
+      },
+      "type": "n8n-nodes-base.quickbooks",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        -352
+      ],
+      "id": "69afce9d-2df2-4339-ad80-a1c6eae18cd3",
+      "name": "Get Ship invoices",
+      "credentials": {
+        "quickBooksOAuth2Api": {
+          "id": "uiqR2DiPNhYWXdSj",
+          "name": "QuickBooks Online"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a828b46c-d5d7-49c3-a2b4-b029a9c9416e",
+              "leftValue": "={{ $json.Balance }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1280,
+        -352
+      ],
+      "id": "5a1c84df-bf74-41a8-a455-f01d86ac86ce",
+      "name": "If Order Fully Paid1"
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeColumnValue",
+        "boardId": "8097949101",
+        "itemId": "={{ $('Check Shipping Board for Order Invoice Match').item.json.id }}",
+        "columnId": "status_1",
+        "value": "=\n{ \"label\": \"Shipping Unpaid\" }\n"
+      },
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1504,
+        -256
+      ],
+      "id": "28ce83ee-89c9-4feb-a5b0-ba45bf9138fd",
+      "name": "Change to Shipping Owing",
+      "credentials": {
+        "mondayComApi": {
+          "id": "UBnY0wecZSO9xAxE",
+          "name": "Monday.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Pipedrive Check",
+        "height": 464,
+        "width": 832
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -640,
+        -528
+      ],
+      "id": "e9174984-2a77-4f9d-b1f5-f7ed2d75a8e4",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Shipping Section\n",
+        "height": 672,
+        "width": 1504
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        208,
+        -736
+      ],
+      "id": "05672189-88e3-4704-81a6-9d8959edd998",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Blindshipping Section\n",
+        "height": 656,
+        "width": 1504
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        208,
+        -48
+      ],
+      "id": "b346f081-f0cb-4dc0-94bd-b9ea43f78f98",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "filters": {
+          "query": "=WHERE DocNumber = '{{ $('Check BlindShipping Board for Ship Invoice Match').item.json.column_values[16].text }}'"
+        }
+      },
+      "type": "n8n-nodes-base.quickbooks",
+      "typeVersion": 1,
+      "position": [
+        624,
+        448
+      ],
+      "id": "7b6b16df-27f2-4146-be9d-a9c9585e372f",
+      "name": "Get Order Invoice1",
+      "credentials": {
+        "quickBooksOAuth2Api": {
+          "id": "uiqR2DiPNhYWXdSj",
+          "name": "QuickBooks Online"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a828b46c-d5d7-49c3-a2b4-b029a9c9416e",
+              "leftValue": "={{ $json.Balance }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        816,
+        448
+      ],
+      "id": "702afcaa-6a0f-4529-878c-6d249ff371d5",
+      "name": "If Order Fully Paid2"
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeColumnValue",
+        "boardId": "8133495678",
+        "itemId": "={{ $('Check BlindShipping Board for Order Invoice Match1').item.json.id }}",
+        "columnId": "status_1",
+        "value": "=\n{ \"label\": \"Done\" }\n"
+      },
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1792,
+        352
+      ],
+      "id": "448b2c7c-5c8b-4267-a205-dc01524b16fb",
+      "name": "Change Status to Bills Paid1",
+      "credentials": {
+        "mondayComApi": {
+          "id": "UBnY0wecZSO9xAxE",
+          "name": "Monday.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "filters": {
+          "query": "=WHERE DocNumber = '{{ $('Check BlindShipping Board for Order Invoice Match1').item.json.column_values[9].text }}'"
+        }
+      },
+      "type": "n8n-nodes-base.quickbooks",
+      "typeVersion": 1,
+      "position": [
+        1264,
+        352
+      ],
+      "id": "eb7532ef-db3a-48e2-a7d9-0246aa42c8af",
+      "name": "Get Ship invoices1",
+      "credentials": {
+        "quickBooksOAuth2Api": {
+          "id": "uiqR2DiPNhYWXdSj",
+          "name": "QuickBooks Online"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a828b46c-d5d7-49c3-a2b4-b029a9c9416e",
+              "leftValue": "={{ $json.Balance }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1520,
+        352
+      ],
+      "id": "de1216c8-a5c0-4bae-aba2-a189ada6268b",
+      "name": "If Order Fully Paid3"
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeColumnValue",
+        "boardId": "8133495678",
+        "itemId": "={{ $('Check BlindShipping Board for Order Invoice Match1').item.json.id }}",
+        "columnId": "status_1",
+        "value": "=\n{ \"label\": \"Shipping Unpaid\" }\n"
+      },
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1776,
+        512
+      ],
+      "id": "9fd04a51-f037-4d21-a258-e60e9c123ea6",
+      "name": "Change to Balance Owing1",
+      "credentials": {
+        "mondayComApi": {
+          "id": "UBnY0wecZSO9xAxE",
+          "name": "Monday.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeColumnValue",
+        "boardId": "8133495678",
+        "itemId": "={{ $('Check BlindShipping Board for Ship Invoice Match').item.json.id }}",
+        "columnId": "status_1",
+        "value": "=\n{ \"label\": \"Balance Owing\" }\n"
+      },
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        656
+      ],
+      "id": "03e1b1bc-876d-4440-94cc-04019d0ef747",
+      "name": "Change to Balance Owing2",
+      "credentials": {
+        "mondayComApi": {
+          "id": "UBnY0wecZSO9xAxE",
+          "name": "Monday.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "info@dadsprinting.com, operations@dadsprinting.com",
+        "subject": "=  Stray Invoice {{ $('Webhook1').item.json.body.doc_number }}",
+        "message": "=Hey team, please note stray invoice  {{ $('Webhook1').item.json.body.doc_number }}has been paid. Please make sure it is properly associated with something. ",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        1760,
+        -32
+      ],
+      "id": "9a57e855-82d6-49e4-ae68-9d9464527493",
+      "name": "Send a message",
+      "webhookId": "54b542d7-a907-40cd-b1a5-aab4c45a4329",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "eeR9kYWgMFeo9vvK",
+          "name": "Gmail - info@"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Stray Invoice",
+        "height": 224,
+        "width": 464
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        -48
+      ],
+      "id": "dbf38713-8a8c-4a3b-b502-3b8c064c12dd",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Incoming doc/invoice number from your webhook/QBO payload\nconst doc = ($json.body?.doc_number ?? '').toString().trim();\n\n// Grab possible deal hits from the search response\nconst candidates =\n  $json.data?.items ??\n  $json.items ??\n  $json.data ??\n  [];\n\n// Helper to read the invoice field\nconst getInvoiceNumber = (deal) => {\n  const cf = deal?.custom_fields;\n\n  // Your note: Invoice Number is custom_fields[2]\n  const v = Array.isArray(cf) ? cf[2] : undefined;\n\n  return (v ?? '').toString().trim();\n};\n\nlet match = null;\n\nfor (const c of candidates) {\n  const deal = c?.item ?? c; // sometimes wrapped in { item: {...} }\n  if (!deal) continue;\n\n  if (getInvoiceNumber(deal) === doc) {\n    match = deal;\n    break;\n  }\n}\n\n// Output ONE item with flags, do not drop execution\nreturn [\n  {\n    json: {\n      ...$json,\n      pd_match_found: !!match,\n      pd_deal_id: match?.id ?? null,\n      pd_deal: match ?? null,\n    },\n  },\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1440,
+        208
+      ],
+      "id": "c36bfd65-53c4-4f19-831e-5778f4dc5ea2",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
+        "resource": "invoice",
+        "operation": "getAll",
+        "filters": {
+          "query": "=WHERE DocNumber = '{{ $('Check Shipping Board for Ship Invoice Match').item.json.column_values[15].text }}'"
+        }
+      },
+      "type": "n8n-nodes-base.quickbooks",
+      "typeVersion": 1,
+      "position": [
+        1056,
+        -592
+      ],
+      "id": "4cad0035-60c3-4849-8e7a-f0777883a1cb",
+      "name": "Get Order Invoice",
+      "credentials": {
+        "quickBooksOAuth2Api": {
+          "id": "uiqR2DiPNhYWXdSj",
+          "name": "QuickBooks Online"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0f06bd58-8808-4f5c-89ec-3646dee00f09",
+              "leftValue": "={{ $('Search a deal1').item.json.id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "number",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1248,
+        208
+      ],
+      "id": "74a07a16-cc63-4a49-b9f7-ce09f54a7f82",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.id }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "exists",
+                      "singleValue": true
+                    },
+                    "id": "40cd7d60-c1c6-4a3d-8230-885cf69266cc"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Found in Monday"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "4f5c8f12-dba4-4c6f-8bcf-4f5c20308dcc",
+                    "leftValue": "={{ $json.id }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "string",
+                      "operation": "notExists",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Find in PD"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.3,
+      "position": [
+        -800,
+        320
+      ],
+      "id": "d2fa5459-1bf7-4818-a6b7-5508020ced0d",
+      "name": "Switch",
+      "alwaysOutputData": false
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeColumnValue",
+        "boardId": "8097949101",
+        "itemId": "={{ $('Check Shipping Board for Order Invoice Match').item.json.id }}",
+        "columnId": "status_1",
+        "value": "=\n{ \"label\": \"Done\" }\n"
+      },
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1776,
+        -400
+      ],
+      "id": "8546afec-f7ed-40db-bae7-7e8944944ee6",
+      "name": "Change Status to Bills Paid2",
+      "credentials": {
+        "mondayComApi": {
+          "id": "UBnY0wecZSO9xAxE",
+          "name": "Monday.com account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "boardItem",
+        "operation": "changeColumnValue",
+        "boardId": "8133495678",
+        "itemId": "={{ $('Check BlindShipping Board for Ship Invoice Match').item.json.id }}",
+        "columnId": "status_1",
+        "value": "=\n{ \"label\": \"Done\" }\n"
+      },
+      "type": "n8n-nodes-base.mondayCom",
+      "typeVersion": 1,
+      "position": [
+        1072,
+        448
+      ],
+      "id": "e8c5d520-83b6-46ba-856c-8941f8429bc3",
+      "name": "Change Status to Bills Paid3",
+      "credentials": {
+        "mondayComApi": {
+          "id": "UBnY0wecZSO9xAxE",
+          "name": "Monday.com account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Webhook1": [
+      {
+        "json": {
+          "headers": {
+            "host": "n8n.srv1001839.hstgr.cloud",
+            "user-agent": "Make/production",
+            "content-length": "56",
+            "accept": "application/json, text/plain, */*",
+            "accept-encoding": "gzip, compress, deflate, br",
+            "content-type": "application/json",
+            "traceparent": "00-6944597f000000007e128d721a40085a-7e128d721a40085a-00",
+            "tracestate": "dd=t.tid:6944597f00000000;t.dm:-1;s:0;p:7e128d721a40085a",
+            "x-datadog-parent-id": "9084478919565903962",
+            "x-datadog-sampling-priority": "0",
+            "x-datadog-tags": "_dd.p.tid=6944597f00000000",
+            "x-datadog-trace-id": "9084478919565903962",
+            "x-forwarded-for": "54.80.47.193",
+            "x-forwarded-host": "n8n.srv1001839.hstgr.cloud",
+            "x-forwarded-port": "443",
+            "x-forwarded-proto": "https",
+            "x-forwarded-server": "8af00641fe32",
+            "x-real-ip": "54.80.47.193"
+          },
+          "params": {},
+          "query": {},
+          "body": {
+            "doc_number": "10377",
+            "balance": "0",
+            "invoiceid": "76637"
+          },
+          "webhookUrl": "https://n8n.srv1001839.hstgr.cloud/webhook/invoice-paid-qb",
+          "executionMode": "production"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Check Shipping Board for Ship Invoice Match",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search a deal1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Match Found": {
+      "main": [
+        [
+          {
+            "node": "Get Order Invoice",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check Shipping Board for Order Invoice Match",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Shipping Board for Ship Invoice Match": {
+      "main": [
+        [
+          {
+            "node": "If Match Found",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Match Found1": {
+      "main": [
+        [
+          {
+            "node": "Get Ship invoices",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check BlindShipping Board for Ship Invoice Match",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check BlindShipping Board for Ship Invoice Match": {
+      "main": [
+        [
+          {
+            "node": "If Match Found2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Match Found2": {
+      "main": [
+        [
+          {
+            "node": "Get Order Invoice1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check BlindShipping Board for Order Invoice Match1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check BlindShipping Board for Order Invoice Match1": {
+      "main": [
+        [
+          {
+            "node": "If Match Found3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Order Fully Paid": {
+      "main": [
+        [
+          {
+            "node": "Change Status to Bills Paid",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Change to Balance Owing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Shipping Board for Order Invoice Match": {
+      "main": [
+        [
+          {
+            "node": "If Match Found1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Change Status to Bills Paid": {
+      "main": [
+        []
+      ]
+    },
+    "Get Ship invoices": {
+      "main": [
+        [
+          {
+            "node": "If Order Fully Paid1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Order Fully Paid1": {
+      "main": [
+        [
+          {
+            "node": "Change Status to Bills Paid2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Change to Shipping Owing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Order Invoice1": {
+      "main": [
+        [
+          {
+            "node": "If Order Fully Paid2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Order Fully Paid2": {
+      "main": [
+        [
+          {
+            "node": "Change Status to Bills Paid3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Change to Balance Owing2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Match Found3": {
+      "main": [
+        [
+          {
+            "node": "Get Ship invoices1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Search a deal1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Ship invoices1": {
+      "main": [
+        [
+          {
+            "node": "If Order Fully Paid3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Order Fully Paid3": {
+      "main": [
+        [
+          {
+            "node": "Change Status to Bills Paid1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Change to Balance Owing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code in JavaScript": {
+      "main": [
+        [
+          {
+            "node": "Move to Paid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Order Invoice": {
+      "main": [
+        [
+          {
+            "node": "If Order Fully Paid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Move to Paid": {
+      "main": [
+        []
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Code in JavaScript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Change to Balance Owing2": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3b9b533f-184a-4f65-a5d2-3e68af273ce1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "43efe27bacd7394d71ea054b6774979f825fb8fa5ec3417e3e299d3e8da0956b"
+  },
+  "id": "OTeuUkWeY3Pve1Zu",
+  "tags": [
+    {
+      "updatedAt": "2025-09-17T05:09:49.048Z",
+      "createdAt": "2025-09-17T05:09:49.048Z",
+      "id": "ZmUeyhhflGtLTFhe",
+      "name": "Order Management"
+    }
+  ]
+}
