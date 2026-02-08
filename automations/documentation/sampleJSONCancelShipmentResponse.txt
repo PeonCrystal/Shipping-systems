@@ -1,6 +1,0 @@
-{
-  "shipment": {
-    "status": "CANCELLED",
-    "order_id": 366157
-  }
-}
